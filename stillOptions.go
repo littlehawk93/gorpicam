@@ -1,17 +1,20 @@
 package gorpicam
 
 const (
+	// TimelapseNone no timelapse for still images
 	TimelapseNone int = -1
 )
 
+// StillOptions contains various configuration options for a raspistill command
 type StillOptions struct {
-	Options
+	Options   `mapstructure:"opt" json:"opt"`
 	Quality   uint8 `mapstructure:"quality" json:"quality"`
 	Raw       bool  `mapstructure:"raw" json:"raw"`
 	Timeout   uint  `mapstructure:"timeout" json:"timeout"`
 	Timelapse int   `mapstructure:"timelapse" json:"timelapse"`
 }
 
+// CmdArgs get the command line arguments for executing a raspistill command
 func (me StillOptions) CmdArgs() []string {
 
 	args := me.Options.CmdArgs()
@@ -28,6 +31,7 @@ func (me StillOptions) CmdArgs() []string {
 	return args
 }
 
+// DefaultStill returns the default options for a raspistill command
 func DefaultStill() StillOptions {
 
 	return StillOptions{

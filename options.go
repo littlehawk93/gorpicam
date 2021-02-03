@@ -2,6 +2,7 @@ package gorpicam
 
 import "fmt"
 
+// Options generic options for any raspicam command
 type Options struct {
 	Width          uint16           `mapstructure:"width" json:"width"`
 	Height         uint16           `mapstructure:"height" json:"height"`
@@ -24,6 +25,7 @@ type Options struct {
 	Annotate       string           `mapstructure:"annotate" json:"annotate"`
 }
 
+// CmdArgs get the command line arguments for executign a raspicam command
 func (me Options) CmdArgs() []string {
 
 	args := make([]string, 0)

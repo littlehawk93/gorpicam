@@ -13,13 +13,13 @@ const (
 	// ExposureNight night shooting
 	ExposureNight ExposureMode = "night"
 
-	// ExposureNightPreview
+	// ExposureNightPreview night shooting
 	ExposureNightPreview ExposureMode = "nightpreview"
 
 	// ExposureBacklight for backlit subjects
 	ExposureBacklight ExposureMode = "backlight"
 
-	// ExposureSpotlight
+	// ExposureSpotlight for spotlit subjects
 	ExposureSpotlight ExposureMode = "spotlight"
 
 	// ExposureSports setting for sports (fast shutter etc.)

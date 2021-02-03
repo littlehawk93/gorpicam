@@ -83,6 +83,7 @@ func (me *VideoCommand) Stop() error {
 	return err
 }
 
+// ExitStatus get the exit code for this command. If it has not finished running, returns 0
 func (me *VideoCommand) ExitStatus() int {
 
 	if me.running || me.cmd == nil {

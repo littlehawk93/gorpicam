@@ -5,8 +5,9 @@ const (
 	LengthUnlimited uint = 0
 )
 
+// VidOptions contains various configuration options for a raspivid command
 type VidOptions struct {
-	Options
+	Options            `mapstructure:"opt" json:"opt"`
 	VideoStabilization bool  `mapstructure:"vstab" json:"vstab"`
 	BitRate            uint  `mapstructure:"bps" json:"bps"`
 	FrameRate          uint8 `mapstructure:"fps" json:"fps"`
@@ -14,6 +15,7 @@ type VidOptions struct {
 	Length             uint  `mapstructure:"length" json:"length"`
 }
 
+// CmdArgs get the command line arguments for executing a raspivid command
 func (me VidOptions) CmdArgs() []string {
 
 	args := me.Options.CmdArgs()
@@ -30,6 +32,7 @@ func (me VidOptions) CmdArgs() []string {
 	return args
 }
 
+// DefaultVid returns the default options for a raspivid command
 func DefaultVid() VidOptions {
 
 	return VidOptions{
