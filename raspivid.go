@@ -46,15 +46,22 @@ func (me *VideoCommand) Start() error {
 	err = me.cmd.Start()
 
 	if err != nil {
-		me.running = true
+		return err
 	}
 
-	if me.Callback != nil {
-		go func() {
-			me.cmd.Wait()
+	me.running = true
+
+	go func() {
+		me.cmd.Wait()
+
+		if me.Callback != nil {
 			me.Callback(me)
-		}()
-	}
+		}
+
+		me.running = false
+		me.cmd.Process.Kill()
+	}()
+
 	return nil
 }
 
