@@ -69,25 +69,25 @@ func (me Options) CmdArgs() []string {
 		args = pushInt8(args, "saturation", clampInt8(me.Saturation, -100, 100))
 	}
 
-	args = pushUInt16(args, "iso", clampUInt16(me.ISO, 100, 800))
+	args = pushUInt16(args, "ISO", clampUInt16(me.ISO, 100, 800))
 
 	if me.EV != 0 {
 		args = pushInt8(args, "ev", clampInt8(me.EV, -10, 10))
 	}
 
-	if me.Exposure != ExposureDefault {
+	if me.Exposure != ExposureDefault && me.Exposure != "" {
 		args = pushString(args, "exposure", string(me.Exposure))
 	}
 
-	if me.Flicker != FlickerOff {
+	if me.Flicker != FlickerOff && me.Flicker != "" {
 		args = pushString(args, "flicker", string(me.Flicker))
 	}
 
-	if me.WhiteBalance != WhiteBalanceDefault {
+	if me.WhiteBalance != WhiteBalanceDefault && me.WhiteBalance != "" {
 		args = pushString(args, "awb", string(me.WhiteBalance))
 	}
 
-	if me.Metering != MeteringDefault {
+	if me.Metering != MeteringDefault && me.Metering != "" {
 		args = pushString(args, "metering", string(me.Metering))
 	}
 
