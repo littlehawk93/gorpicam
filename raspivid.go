@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"os/exec"
 	"regexp"
@@ -23,7 +22,7 @@ type VideoCommand struct {
 	args     []string
 	cmd      *exec.Cmd
 	running  bool
-	cmdErr   io.ReadCloser
+	cmdErr   *bytes.Buffer
 	Callback VideoRecordingCompleteCallback
 }
 
@@ -35,15 +34,11 @@ func (me *VideoCommand) Start() error {
 	}
 
 	me.cmd = exec.Command("raspivid", me.args...)
-	stderr, err := me.cmd.StderrPipe()
 
-	if err != nil {
-		return err
-	}
+	me.cmdErr = &bytes.Buffer{}
+	me.cmd.Stderr = me.cmdErr
 
-	me.cmdErr = stderr
-
-	err = me.cmd.Start()
+	err := me.cmd.Start()
 
 	if err != nil {
 		return err
