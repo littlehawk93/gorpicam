@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"os/exec"
 	"regexp"
+	"sync"
 )
 
 const (
@@ -22,12 +23,15 @@ type VideoCommand struct {
 	args     []string
 	cmd      *exec.Cmd
 	running  bool
+	m        *sync.Mutex
 	cmdErr   *bytes.Buffer
 	Callback VideoRecordingCompleteCallback
 }
 
 // Start start recording video
 func (me *VideoCommand) Start() error {
+
+	me.m = &sync.Mutex{}
 
 	if me.running {
 		return errors.New(errAlreadyRunning)
@@ -44,17 +48,18 @@ func (me *VideoCommand) Start() error {
 		return err
 	}
 
-	me.running = true
-
 	go func() {
+		me.m.Lock()
+		me.running = true
 		me.cmd.Wait()
 
 		if me.Callback != nil {
 			me.Callback(me)
 		}
 
-		me.running = false
 		me.cmd.Process.Kill()
+		me.running = false
+		me.m.Unlock()
 	}()
 
 	return nil
@@ -67,7 +72,8 @@ func (me *VideoCommand) Wait() error {
 		return errors.New(errNotRunning)
 	}
 
-	return me.cmd.Wait()
+	me.m.Lock()
+	return nil
 }
 
 // Stop force command to stop recording
